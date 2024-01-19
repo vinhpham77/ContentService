@@ -62,9 +62,6 @@ public class PostService {
     public Post create(PostDto postDto) {
         var requester = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        User user = userService.getByUsername(requester)
-                .orElseThrow(() -> new ApiException("Người dùng @" + requester + " không tồn tại", HttpStatus.NOT_FOUND));
-
         Set<Tag> tags = postDto.getTags().stream()
                 .map(tagService::findByName)
                 .collect(Collectors.toSet());
@@ -162,12 +159,7 @@ public class PostService {
     }
 
     public int countPostCreateBy(String username) {
-        Optional<User> user = userService.getByUsername(username);
-        if (user.isPresent()) {
-            return postRepository.countByCreatedBy(user.get().getUsername());
-        } else {
-            throw new ApiException("Người dùng @" + username + " không tồn tại", HttpStatus.NOT_FOUND);
-        }
+        return postRepository.countByCreatedBy(username);
     }
 
     public Post updateScore(Integer id, int score) {
@@ -184,15 +176,14 @@ public class PostService {
     }
 
     public PostAggregations getDetail(Integer id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException("Bài viết không tồn tại", HttpStatus.NOT_FOUND));
 
-            Post post = postRepository.findById(id)
-                    .orElseThrow(() -> new ApiException("Bài viết không tồn tại", HttpStatus.NOT_FOUND));
-
-            String createdBy = post.getCreatedBy();
-         User user =userService.getByUsername(createdBy).orElseThrow(() -> new ApiException("Tác giả không tồn tại", HttpStatus.NOT_FOUND));
+        String createdBy = post.getCreatedBy();
+        User user = userService.getByUsername(createdBy).orElseThrow(() -> new ApiException("Tác giả không tồn tại", HttpStatus.NOT_FOUND));
         return PostAggregations.builder()
-                 .post(post)
-                 .user(user).build();
+                .post(post)
+                .user(user).build();
 
     }
 }
