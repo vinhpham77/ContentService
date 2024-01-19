@@ -182,4 +182,17 @@ public class PostService {
             }
         }
     }
+
+    public PostAggregations getDetail(Integer id) {
+
+            Post post = postRepository.findById(id)
+                    .orElseThrow(() -> new ApiException("Bài viết không tồn tại", HttpStatus.NOT_FOUND));
+
+            String createdBy = post.getCreatedBy();
+         User user =userService.getByUsername(createdBy).orElseThrow(() -> new ApiException("Tác giả không tồn tại", HttpStatus.NOT_FOUND));
+        return PostAggregations.builder()
+                 .post(post)
+                 .user(user).build();
+
+    }
 }
