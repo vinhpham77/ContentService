@@ -24,6 +24,10 @@ public class PostController {
     public ResponseEntity<?> get(@PathVariable Integer id) {
         return new ResponseEntity<>(postService.get(id), HttpStatus.OK);
     }
+    @GetMapping("/{id}/detail")
+    public ResponseEntity<?> getDetail(@PathVariable Integer id) {
+        return new ResponseEntity<>(postService.getDetail(id), HttpStatus.OK);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody PostDto postDto) {
