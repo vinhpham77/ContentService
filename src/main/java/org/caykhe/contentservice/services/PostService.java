@@ -182,4 +182,16 @@ public class PostService {
             }
         }
     }
+    public Post getDetail(Integer id, int score) {
+        {
+            Optional<Post> postOptional = postRepository.findById(id);
+            if (postOptional.isPresent()) {
+                Post post = postOptional.get();
+                post.setScore(score);
+                return postRepository.save(post);
+            } else {
+                throw new ApiException("Không tìm thấy post cần vote", HttpStatus.NOT_FOUND);
+            }
+        }
+    }
 }

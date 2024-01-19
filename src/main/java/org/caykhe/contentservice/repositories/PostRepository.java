@@ -51,4 +51,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     int countByCreatedBy(String createdBy);
     List<Post> findByCreatedByAndIdNot(@NotNull String createdBy, Integer id);
+
 }
