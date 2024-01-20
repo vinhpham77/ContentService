@@ -67,4 +67,22 @@ public class SeriesController {
     public ResponseEntity<?> updateScore( @RequestParam Integer id,@RequestParam int score ){
         return  new ResponseEntity<>(seriesService.updateScore(id,score),HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> getSearch(@RequestParam(required = false, name = "searchField", defaultValue = "") String fieldName,
+                                       @RequestParam(required = false, name = "search") String searchContent,
+                                       @RequestParam(required = false, name = "sort", defaultValue = "") String sort,
+                                       @RequestParam(required = false, name = "sortField", defaultValue = "") String sortField,
+                                       @RequestParam(required = false, name = "page") Integer page,
+                                       @RequestParam(required = false, name = "limit", defaultValue = "10") int limit) {
+
+        return new ResponseEntity<>(seriesService.search(fieldName, searchContent, sort, sortField, page, limit), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/follow")
+    public ResponseEntity<?> getSerieByUsernames(@RequestParam(name = "usernames") List<String> usernames,
+                                                 @RequestParam(required = false, name = "page") Integer page,
+                                                 @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit) {
+        return new ResponseEntity<>(seriesService.getSerieByUsername(usernames, page, limit), HttpStatus.OK);
+    }
 }

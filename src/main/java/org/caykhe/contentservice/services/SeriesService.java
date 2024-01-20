@@ -227,4 +227,54 @@ public class SeriesService {
     public int countSeriesCreateBy(String username){
         return seriesRepository.countByCreatedBy(username);
     }
+
+    @Transactional
+    public ResultCount<SeriesDto> getSerieByUsername(List<String> usernames, Integer page, Integer size) {
+        Page<Series> seriesPage;
+        Pageable pageable = (page == null || size == null || page < 1 || size <= 1)
+                ? Pageable.unpaged()
+                : PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
+
+        seriesPage = seriesRepository.findByCreatedByInAndIsPrivateFalse(usernames, pageable);
+
+        List<SeriesDto> seriesDtos = seriesPage.getContent().stream()
+                .map(this::convertToDto)
+                .toList();
+
+        long count = seriesPage.getTotalElements();
+
+        return new ResultCount<>(seriesDtos, count);
+    }
+
+    @Transactional
+    public ResultCount<SeriesDto> search(String fieldSearch, String searchContent, String sort, String sortField, Integer page, Integer limit) {
+        Page<Series> seriesPage;
+        sortField = sortField.isEmpty() ? "updatedAt" : sortField;
+        Pageable pageable = (page == null || limit == null || page < 1 || limit < 1)
+                ? Pageable.unpaged()
+                : PageRequest.of(page - 1, limit, Sort.by("ASC".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField));
+
+        seriesPage = switch (fieldSearch) {
+            case "title" -> seriesRepository.findByTitleContainingAndIsPrivateFalse(searchContent, pageable);
+            case "content" -> seriesRepository.findByContentContainingAndIsPrivateFalse(searchContent, pageable);
+            case "username" ->
+                    seriesRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
+            case "" ->
+                    seriesRepository.findByTitleOrCreatedByOrContentContainingAndIsPrivateFalse(searchContent, pageable);
+            default ->
+                    throw new ApiException("Lỗi! Không thể tìm kiếm theo trường " + fieldSearch, HttpStatus.BAD_REQUEST);
+        };
+
+        try {
+            List<SeriesDto> seriesDtos = seriesPage.getContent().stream()
+                    .map(this::convertToDto)
+                    .toList();
+
+            long count = seriesPage.getTotalElements();
+
+            return new ResultCount<>(seriesDtos, count);
+        } catch (Exception e) {
+            throw new ApiException("Lỗi! không thể tim kiếm", HttpStatus.FORBIDDEN);
+        }
+    }
 }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/posts")
@@ -77,6 +79,14 @@ public class PostController {
                                        @RequestParam(required = false, name = "limit", defaultValue = "10") int limit) {
 
         return new ResponseEntity<>(postService.search(fieldName, searchContent, sort, sortField, page, limit), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/follow")
+    public  ResponseEntity<?> getPostByUsernames(@RequestParam(name = "usernames") List<String> usernames,
+                                                 @RequestParam(required = false, name = "page") Integer page,
+                                                 @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit,
+                                                 @RequestParam(required = false, defaultValue = "") String tag) {
+        return new ResponseEntity<>(postService.getPostByUserNames(usernames, page, limit, tag), HttpStatus.OK);
     }
 
 }

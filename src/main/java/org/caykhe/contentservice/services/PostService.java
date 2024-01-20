@@ -176,7 +176,7 @@ public class PostService {
     }
 
     @Transactional
-    public ResultCount<Post> getPostsFollow(List<String> usernames, Integer page, Integer size, String tag) {
+    public ResultCount<Post> getPostByUserNames(List<String> usernames, Integer page, Integer size, String tag) {
         Page<Post> postPage;
         Pageable pageable = (page == null || size == null || page < 1 || size < 1)
                 ? Pageable.unpaged()
