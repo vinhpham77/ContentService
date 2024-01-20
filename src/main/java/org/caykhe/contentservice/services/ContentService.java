@@ -13,7 +13,7 @@ public class ContentService {
     private final PostRepository postRepository;
     private final PostTagRepository postTagRepository;
     private final SeriesRepository seriesRepository;
-    
+
     public ContentStats getContentStats(String username) {
         int postCount = postRepository.countByCreatedBy(username);
         int questionCount = postTagRepository.countByPost_CreatedByAndTag_Name(username, "HoiDap");

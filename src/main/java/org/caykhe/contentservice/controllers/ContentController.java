@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/content")
 public class ContentController {
     private final ContentService contentService;
-    
+
     @GetMapping("/{username}/stats")
     public ResponseEntity<?> getContentStats(@PathVariable String username) {
         return new ResponseEntity<>(contentService.getContentStats(username), HttpStatus.OK);

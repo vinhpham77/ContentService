@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "series_posts")
 public class SeriesPost {
-    
+
     @EmbeddedId
     private SeriesPostId id;
 

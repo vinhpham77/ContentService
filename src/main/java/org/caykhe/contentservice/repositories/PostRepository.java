@@ -50,6 +50,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     Page<Post> findByIdInAndTagsName(List<Integer> ids, String tag, Pageable pageable);
 
     int countByCreatedBy(String createdBy);
+
     List<Post> findByCreatedByAndIdNot(@NotNull String createdBy, Integer id);
 
 }

@@ -51,7 +51,7 @@ public class Post {
     @NotNull
     @Column(name = "comment_count", nullable = false)
     private Integer commentCount;
-    
+
     @NotNull
     @Column(name = "created_by", nullable = false)
     private String createdBy;

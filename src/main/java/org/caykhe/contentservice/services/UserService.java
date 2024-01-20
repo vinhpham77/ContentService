@@ -18,18 +18,18 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class UserService {
     private final RestTemplate restTemplate;
-    
+
     @Value("${user.service.url}")
     private String userServiceUrl;
-    
+
     public Optional<User> verifyToken(String token) {
-        String url = userServiceUrl + "/auth/verify"; 
-        
+        String url = userServiceUrl + "/auth/verify";
+
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().set("Authorization", token);
             return execution.execute(request, body);
         });
-        
+
         try {
             User user = restTemplate.getForObject(url, User.class);
             return Optional.ofNullable(user);

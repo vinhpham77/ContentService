@@ -34,6 +34,17 @@ public class SeriesService {
     private final PostService postService;
     private final SeriesPostRepository seriesPostRepository;
 
+    private static List<SeriesPost> createSeriesPosts(Series series, List<Post> posts) {
+        return posts.stream()
+                .map(post -> SeriesPost
+                        .builder()
+                        .id(SeriesPostId.builder().postId(post.getId()).seriesId(series.getId()).build())
+                        .series(series)
+                        .post(post)
+                        .build()
+                ).toList();
+    }
+
     public Series get(Integer id) {
         var series = seriesRepository.findById(id)
                 .orElseThrow(() -> new ApiException("Series không tồn tại", HttpStatus.NOT_FOUND));
@@ -71,12 +82,11 @@ public class SeriesService {
 
         return new ResultCount<>(seriesDtos, count);
     }
-    
 
     @Transactional
     public Series create(SeriesDto seriesDto) {
         var requester = SecurityContextHolder.getContext().getAuthentication().getName();
-        
+
         Series series = Series
                 .builder()
                 .title(seriesDto.getTitle())
@@ -155,17 +165,6 @@ public class SeriesService {
         }
     }
 
-    private static List<SeriesPost> createSeriesPosts(Series series, List<Post> posts) {
-        return posts.stream()
-                .map(post -> SeriesPost
-                        .builder()
-                        .id(SeriesPostId.builder().postId(post.getId()).seriesId(series.getId()).build())
-                        .series(series)
-                        .post(post)
-                        .build()
-                ).toList();
-    }
-
     private SeriesDto convertToDto(Series series) {
         return ConverterUtils.convertSeriesDto(series, seriesPostRepository);
     }
@@ -188,7 +187,7 @@ public class SeriesService {
 
         return new ResultCount<>(seriesDtos, count);
     }
-    
+
     public List<Post> getListPost(Integer seriesId) {
         Optional<Series> seriesOptional = seriesRepository.findById(seriesId);
         List<Post> postList = new ArrayList<>();
@@ -213,7 +212,7 @@ public class SeriesService {
         }
 
     }
-    
+
     public Series updateScore(Integer id, int score) {
         {
             Optional<Series> seriesOptional = seriesRepository.findById(id);
@@ -226,8 +225,8 @@ public class SeriesService {
             }
         }
     }
-    
-    public int countSeriesCreateBy(String username){
+
+    public int countSeriesCreateBy(String username) {
         return seriesRepository.countByCreatedBy(username);
     }
 
@@ -260,8 +259,7 @@ public class SeriesService {
         seriesPage = switch (fieldSearch) {
             case "title" -> seriesRepository.findByTitleContainingAndIsPrivateFalse(searchContent, pageable);
             case "content" -> seriesRepository.findByContentContainingAndIsPrivateFalse(searchContent, pageable);
-            case "username" ->
-                    seriesRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
+            case "username" -> seriesRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
             case "" ->
                     seriesRepository.findByTitleOrCreatedByOrContentContainingAndIsPrivateFalse(searchContent, pageable);
             default ->

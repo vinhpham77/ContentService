@@ -13,7 +13,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
-    
+
     private Integer id;
     private String username;
     private String password;
@@ -32,7 +32,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return accountNonExpired;

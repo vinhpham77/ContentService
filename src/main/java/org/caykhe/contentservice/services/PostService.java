@@ -202,8 +202,7 @@ public class PostService {
         postPage = switch (fieldSearch) {
             case "title" -> postRepository.findByTitleContainingAndIsPrivateFalse(searchContent, pageable);
             case "content" -> postRepository.findByContentContainingAndIsPrivateFalse(searchContent, pageable);
-            case "username" ->
-                    postRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
+            case "username" -> postRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
             case "tag" -> postRepository.findByTagsNameContainingAndIsPrivateFalse(searchContent, pageable);
             case "" ->
                     postRepository.findByTitleOrCreatedByOrTagsNameOrContentContainingAndIsPrivateFalse(searchContent, pageable);
