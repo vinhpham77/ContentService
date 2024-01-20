@@ -2,7 +2,10 @@ package org.caykhe.contentservice.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.caykhe.contentservice.dtos.*;
+import org.caykhe.contentservice.dtos.ApiException;
+import org.caykhe.contentservice.dtos.ResultCount;
+import org.caykhe.contentservice.dtos.SeriesDto;
+import org.caykhe.contentservice.dtos.UserLatestPageable;
 import org.caykhe.contentservice.models.Post;
 import org.caykhe.contentservice.models.Series;
 import org.caykhe.contentservice.models.SeriesPost;

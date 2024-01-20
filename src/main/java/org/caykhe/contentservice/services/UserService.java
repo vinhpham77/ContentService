@@ -3,11 +3,11 @@ package org.caykhe.contentservice.services;
 import lombok.RequiredArgsConstructor;
 import org.caykhe.contentservice.dtos.ApiException;
 import org.caykhe.contentservice.dtos.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Optional;
 

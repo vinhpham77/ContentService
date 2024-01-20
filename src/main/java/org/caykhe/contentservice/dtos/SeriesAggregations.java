@@ -2,7 +2,6 @@ package org.caykhe.contentservice.dtos;
 
 import lombok.Builder;
 import lombok.Data;
-import org.caykhe.contentservice.models.Post;
 import org.caykhe.contentservice.models.Series;
 
 @Data

@@ -1,7 +1,6 @@
 package org.caykhe.contentservice.repositories;
 
 
-import org.caykhe.contentservice.models.Post;
 import org.caykhe.contentservice.models.Series;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
