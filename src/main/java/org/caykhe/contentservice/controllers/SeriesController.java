@@ -79,7 +79,7 @@ public class SeriesController {
         return new ResponseEntity<>(seriesService.search(fieldName, searchContent, sort, sortField, page, limit), HttpStatus.OK);
     }
 
-    @GetMapping("/get/follow")
+    @GetMapping("/get/in_usernames")
     public ResponseEntity<?> getSerieByUsernames(@RequestParam(name = "usernames") List<String> usernames,
                                                  @RequestParam(required = false, name = "page") Integer page,
                                                  @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit) {

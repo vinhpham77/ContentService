@@ -47,11 +47,12 @@ public class SecurityConfig {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/posts/get{query}", "/posts/postDetails/{id}",
+                        .requestMatchers("/posts/get{query}", "/posts/postDetails/{id}", "/posts/get/in_usernames",
                                 "/posts/postsSameAuthor/{authorName}", "/posts/{id}", "/posts/number",
                                 "/posts/by/{username}", "/posts/search", "posts/totalPost/{username}").permitAll()
                         .requestMatchers("/tags").permitAll()
-                        .requestMatchers("/series/get", "/series/search", "/series/by/{username}", "/series/totalSeries/{username}", "/series/detail/{seriesId}", "/series/all", "/series/{id}").permitAll()
+                        .requestMatchers("/series/get", "/series/search", "/series/by/{username}", "/series/get/in_usernames",
+                                "/series/totalSeries/{username}", "/series/detail/{seriesId}", "/series/all", "/series/{id}").permitAll()
                         .anyRequest().authenticated())
 
                 .exceptionHandling(exception -> exception
