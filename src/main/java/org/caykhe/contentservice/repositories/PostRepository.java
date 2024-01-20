@@ -32,8 +32,8 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:title% AND p.isPrivate = false")
     Page<Post> findByTitleContainingAndIsPrivateFalse(@Param("title") String title, Pageable pageable);
 
-    @Query("SELECT p FROM Post p WHERE p.createdBy LIKE %:displayName% AND p.isPrivate = false")
-    Page<Post> findByCreatedByContainingAndIsPrivateFalse(@Param("displayName") String displayName, Pageable pageable);
+    @Query("SELECT p FROM Post p WHERE p.createdBy LIKE %:createdBy% AND p.isPrivate = false")
+    Page<Post> findByCreatedByContainingAndIsPrivateFalse(@Param("createdBy") String displayName, Pageable pageable);
 
     @Query("SELECT p FROM Post p JOIN p.tags t WHERE t.name LIKE %:tag% AND p.isPrivate = false")
     Page<Post> findByTagsNameContainingAndIsPrivateFalse(@Param("tag") String tag, Pageable pageable);

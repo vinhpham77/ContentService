@@ -182,4 +182,49 @@ public class PostService {
             }
         }
     }
+
+    @Transactional
+    public ResultCount<Post> getPostsFollow(List<String> usernames, Integer page, Integer size, String tag) {
+        Page<Post> postPage;
+        Pageable pageable = (page == null || size == null || page < 1 || size < 1)
+                ? Pageable.unpaged()
+                : PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
+
+        postPage = tag.isBlank() ? postRepository.findByCreatedByInAndIsPrivateFalse(usernames, pageable)
+                : postRepository.findByCreatedByInAndTagsNameAndIsPrivateFalse(usernames, tag, pageable);
+
+        List<Post> posts = postPage.toList();
+        long count = postPage.getTotalElements();
+
+        return new ResultCount<>(posts, count);
+    }
+
+    @Transactional
+    public ResultCount<Post> search(String fieldSearch, String searchContent, String sort, String sortField, Integer page, Integer limit) {
+        Page<Post> postPage;
+        sortField = sortField.isEmpty() ? "updatedAt" : sortField;
+        Pageable pageable = (page == null || limit == null || page < 1 || limit < 1)
+                ? Pageable.unpaged()
+                : PageRequest.of(page - 1, limit, Sort.by("ASC".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField));
+
+        postPage = switch (fieldSearch) {
+            case "title" -> postRepository.findByTitleContainingAndIsPrivateFalse(searchContent, pageable);
+            case "content" -> postRepository.findByContentContainingAndIsPrivateFalse(searchContent, pageable);
+            case "username" ->
+                    postRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
+            case "tag" -> postRepository.findByTagsNameContainingAndIsPrivateFalse(searchContent, pageable);
+            case "" ->
+                    postRepository.findByTitleOrCreatedByOrTagsNameOrContentContainingAndIsPrivateFalse(searchContent, pageable);
+            default ->
+                    throw new ApiException("Lỗi! Không thể tìm kiếm theo trường " + fieldSearch, HttpStatus.BAD_REQUEST);
+        };
+        try {
+            List<Post> posts = postPage.toList();
+            long count = postPage.getTotalElements();
+
+            return new ResultCount<>(posts, count);
+        } catch (Exception e) {
+            throw new ApiException("Lỗi! không thể tim kiếm", HttpStatus.FORBIDDEN);
+        }
+    }
 }
