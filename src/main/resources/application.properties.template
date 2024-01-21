@@ -9,3 +9,5 @@ spring.web.locale=vi_VN
 spring.web.locale-resolver=fixed
 
 user.service.url=http://localhost:8888/api
+
+
