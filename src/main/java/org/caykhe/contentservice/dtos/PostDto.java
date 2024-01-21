@@ -22,6 +22,6 @@ public class PostDto {
     @NotNull(message = "Tag không được để trống")
     List<String> tags;
 
-    @NotNull(message = "Mức độ chia sẻ phải được chỉ định")
+    @NotNull(message = "Quyền riêng tư phải được chỉ định")
     Boolean isPrivate;
 }
