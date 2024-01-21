@@ -36,5 +36,7 @@ public interface SeriesRepository extends JpaRepository<Series, Integer> {
 
     Page<Series> findByIdIn(List<Integer> ids, Pageable pageable);
 
+    List<Series> findByIdIn(List<Integer> ids);
+
     int countByCreatedBy(String createdBy);
 }

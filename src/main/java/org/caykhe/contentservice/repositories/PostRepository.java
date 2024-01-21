@@ -53,4 +53,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findByCreatedByAndIdNot(@NotNull String createdBy, Integer id);
 
+    List<Post> findByIdIn(List<Integer> ids);
 }

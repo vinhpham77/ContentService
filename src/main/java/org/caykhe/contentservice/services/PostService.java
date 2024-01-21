@@ -194,7 +194,6 @@ public class PostService {
         Pageable pageable = (page == null || size == null || page < 1 || size < 1)
                 ? Pageable.unpaged()
                 : PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
-
         postPage = tag.isBlank() ? postRepository.findByCreatedByInAndIsPrivateFalse(usernames, pageable)
                 : postRepository.findByCreatedByInAndTagsNameAndIsPrivateFalse(usernames, tag, pageable);
 
@@ -230,6 +229,13 @@ public class PostService {
         } catch (Exception e) {
             throw new ApiException("Lỗi! không thể tim kiếm", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @Transactional
+    public List<Post> getPostByIds(List<Integer> ids) {
+        List<Post> posts = postRepository.findByIdIn(ids);
+
+        return posts;
     }
 
     public PostAggregations getDetail(Integer id) {
