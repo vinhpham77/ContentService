@@ -278,4 +278,17 @@ public class SeriesService {
             throw new ApiException("Lỗi! không thể tim kiếm", HttpStatus.FORBIDDEN);
         }
     }
+
+    public void updateCommentCount(Integer id, int commentCount) {
+        {
+            Optional<Series> seriesOptional = seriesRepository.findById(id);
+            if (seriesOptional.isPresent()) {
+                Series series = seriesOptional.get();
+                series.setCommentCount(commentCount);
+                seriesRepository.save(series);
+            } else {
+                throw new ApiException("Không tìm thấy series cần cập nhật comment count", HttpStatus.NOT_FOUND);
+            }
+        }
+    }
 }

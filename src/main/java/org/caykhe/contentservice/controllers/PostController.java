@@ -90,4 +90,10 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostByUserNames(usernames, page, limit, tag), HttpStatus.OK);
     }
 
+    @PutMapping("/updateCommentCount")
+    public ResponseEntity<?> updateCommentCount(@RequestParam Integer id, @RequestParam int commentCount) {
+        postService.updateCommentCount(id, commentCount);
+        return ResponseEntity.noContent().build();
+    }
+
 }

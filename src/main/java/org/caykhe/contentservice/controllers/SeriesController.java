@@ -86,4 +86,9 @@ public class SeriesController {
                                                  @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit) {
         return new ResponseEntity<>(seriesService.getSerieByUsername(usernames, page, limit), HttpStatus.OK);
     }
+
+    @PutMapping("/updateCommentCount")
+    public ResponseEntity<?> updateCommentCount(@RequestParam Integer id, @RequestParam int commentCount) {
+        seriesService.updateCommentCount(id, commentCount);
+        return ResponseEntity.noContent().build();    }
 }
