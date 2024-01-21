@@ -23,7 +23,7 @@ public class SeriesDto {
 
     List<Integer> postIds;
 
-    @NotNull(message = "Mức độ chia sẻ phải được chỉ định")
+    @NotNull(message = "Quyền riêng tư phải được chỉ định")
     Boolean isPrivate;
 
     Integer score;
