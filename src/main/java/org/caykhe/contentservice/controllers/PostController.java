@@ -91,7 +91,7 @@ public class PostController {
     }
 
     @PutMapping("/updateCommentCount")
-    public ResponseEntity<?> updateCommentCount(@RequestParam Integer id, @RequestParam int commentCount) {
+    public ResponseEntity<?> updateCommentCount(@RequestParam Integer id, @RequestParam Integer commentCount) {
         postService.updateCommentCount(id, commentCount);
         return ResponseEntity.noContent().build();
     }
