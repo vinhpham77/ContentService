@@ -91,4 +91,9 @@ public class SeriesController {
     public ResponseEntity<?> updateCommentCount(@RequestParam Integer id, @RequestParam int commentCount) {
         seriesService.updateCommentCount(id, commentCount);
         return ResponseEntity.noContent().build();    }
+
+    @GetMapping("/get/in_ids")
+    public ResponseEntity<?> getSeriesByIds(@RequestParam(name = "ids") List<Integer> ids) {
+        return new ResponseEntity<>(seriesService.getSeriesByIds(ids), HttpStatus.OK);
+    }
 }

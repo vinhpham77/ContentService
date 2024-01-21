@@ -96,4 +96,9 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/get/in_ids")
+    public ResponseEntity<?> getPostByIds(@RequestParam(name = "ids") List<Integer> ids) {
+        return new ResponseEntity<>(postService.getPostByIds(ids), HttpStatus.OK);
+    }
+
 }

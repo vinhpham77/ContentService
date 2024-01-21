@@ -291,4 +291,13 @@ public class SeriesService {
             }
         }
     }
+
+    @Transactional
+    public List<SeriesDto> getSeriesByIds(List<Integer> ids) {
+        List<Series> series = seriesRepository.findByIdIn(ids);
+        List<SeriesDto> seriesDtos = series.stream()
+                .map(this::convertToDto)
+                .toList();
+        return seriesDtos;
+    }
 }
