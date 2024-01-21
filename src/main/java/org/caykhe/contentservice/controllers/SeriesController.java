@@ -48,7 +48,7 @@ public class SeriesController {
                                  @RequestParam(required = false) Integer size) {
         return ResponseEntity.ok(seriesService.getSeries(page, size));
     }
-    
+
     @GetMapping("/detail/{seriesId}")
     public ResponseEntity<?> getPostsBySeriesId(@PathVariable Integer seriesId) {
         List<Post> postList = seriesService.getListPost(seriesId);
@@ -58,14 +58,15 @@ public class SeriesController {
             return new ResponseEntity<>(postList, HttpStatus.OK);
         }
     }
-    
+
     @GetMapping("/totalSeries/{username}")
-    public ResponseEntity<?> getTotalPost(@PathVariable String username){
-        return new ResponseEntity<>(seriesService.countSeriesCreateBy(username),HttpStatus.OK);
+    public ResponseEntity<?> getTotalPost(@PathVariable String username) {
+        return new ResponseEntity<>(seriesService.countSeriesCreateBy(username), HttpStatus.OK);
     }
+
     @PutMapping("/updateScore")
-    public ResponseEntity<?> updateScore( @RequestParam Integer id,@RequestParam int score ){
-        return  new ResponseEntity<>(seriesService.updateScore(id,score),HttpStatus.OK);
+    public ResponseEntity<?> updateScore(@RequestParam Integer id, @RequestParam int score) {
+        return new ResponseEntity<>(seriesService.updateScore(id, score), HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -85,4 +86,9 @@ public class SeriesController {
                                                  @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit) {
         return new ResponseEntity<>(seriesService.getSerieByUsername(usernames, page, limit), HttpStatus.OK);
     }
+
+    @PutMapping("/updateCommentCount")
+    public ResponseEntity<?> updateCommentCount(@RequestParam Integer id, @RequestParam int commentCount) {
+        seriesService.updateCommentCount(id, commentCount);
+        return ResponseEntity.noContent().build();    }
 }

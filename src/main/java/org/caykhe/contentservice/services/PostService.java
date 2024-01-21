@@ -175,6 +175,19 @@ public class PostService {
         }
     }
 
+    public void updateCommentCount(Integer id, int commentCount) {
+        {
+            Optional<Post> postOptional = postRepository.findById(id);
+            if (postOptional.isPresent()) {
+                Post post = postOptional.get();
+                post.setCommentCount(commentCount);
+                postRepository.save(post);
+            } else {
+                throw new ApiException("Không tìm thấy post cần cập nhật comment count", HttpStatus.NOT_FOUND);
+            }
+        }
+    }
+
     @Transactional
     public ResultCount<Post> getPostByUserNames(List<String> usernames, Integer page, Integer size, String tag) {
         Page<Post> postPage;
@@ -202,8 +215,7 @@ public class PostService {
         postPage = switch (fieldSearch) {
             case "title" -> postRepository.findByTitleContainingAndIsPrivateFalse(searchContent, pageable);
             case "content" -> postRepository.findByContentContainingAndIsPrivateFalse(searchContent, pageable);
-            case "username" ->
-                    postRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
+            case "username" -> postRepository.findByCreatedByContainingAndIsPrivateFalse(searchContent, pageable);
             case "tag" -> postRepository.findByTagsNameContainingAndIsPrivateFalse(searchContent, pageable);
             case "" ->
                     postRepository.findByTitleOrCreatedByOrTagsNameOrContentContainingAndIsPrivateFalse(searchContent, pageable);

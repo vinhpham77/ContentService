@@ -3,11 +3,11 @@ package org.caykhe.contentservice.services;
 import lombok.RequiredArgsConstructor;
 import org.caykhe.contentservice.dtos.ApiException;
 import org.caykhe.contentservice.dtos.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Optional;
 
@@ -18,18 +18,18 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class UserService {
     private final RestTemplate restTemplate;
-    
+
     @Value("${user.service.url}")
     private String userServiceUrl;
-    
+
     public Optional<User> verifyToken(String token) {
-        String url = userServiceUrl + "/auth/verify"; 
-        
+        String url = userServiceUrl + "/auth/verify";
+
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().set("Authorization", token);
             return execution.execute(request, body);
         });
-        
+
         try {
             User user = restTemplate.getForObject(url, User.class);
             return Optional.ofNullable(user);

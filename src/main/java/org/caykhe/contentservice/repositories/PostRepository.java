@@ -1,7 +1,7 @@
 package org.caykhe.contentservice.repositories;
 
-import org.caykhe.contentservice.models.Post;
 import jakarta.validation.constraints.NotNull;
+import org.caykhe.contentservice.models.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -50,6 +50,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     Page<Post> findByIdInAndTagsName(List<Integer> ids, String tag, Pageable pageable);
 
     int countByCreatedBy(String createdBy);
+
     List<Post> findByCreatedByAndIdNot(@NotNull String createdBy, Integer id);
 
 }

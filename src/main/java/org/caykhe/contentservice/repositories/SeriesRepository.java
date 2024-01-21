@@ -1,7 +1,6 @@
 package org.caykhe.contentservice.repositories;
 
 
-import org.caykhe.contentservice.models.Post;
 import org.caykhe.contentservice.models.Series;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,7 @@ public interface SeriesRepository extends JpaRepository<Series, Integer> {
 
     @Query("SELECT s FROM Series s WHERE s.title LIKE %:title% AND s.isPrivate = false")
     Page<Series> findByTitleContainingAndIsPrivateFalse(@Param("title") String title, Pageable pageable);
-    
+
     @Query("SELECT s FROM Series s WHERE s.content LIKE %:content% AND s.isPrivate = false")
     Page<Series> findByContentContainingAndIsPrivateFalse(@Param("content") String content, Pageable pageable);
 
@@ -33,8 +32,8 @@ public interface SeriesRepository extends JpaRepository<Series, Integer> {
 
     @Query("SELECT s FROM Series s WHERE (s.title LIKE %:searchContent% OR s.createdBy LIKE %:searchContent% OR s.content LIKE %:searchContent%) AND s.isPrivate = false")
     Page<Series> findByTitleOrCreatedByOrContentContainingAndIsPrivateFalse(@Param("searchContent") String searchContent,
-                                                                                    Pageable pageable);
-    
+                                                                            Pageable pageable);
+
     Page<Series> findByIdIn(List<Integer> ids, Pageable pageable);
 
     int countByCreatedBy(String createdBy);
