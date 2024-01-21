@@ -5,6 +5,7 @@ import org.caykhe.contentservice.services.TagService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,4 +20,8 @@ public class TagController {
         return new ResponseEntity<>(tagService.get(page, size), HttpStatus.OK);
     }
 
+    @GetMapping("/{username}/counts")
+    public ResponseEntity<?> getTagCounts(@PathVariable String username) {
+        return new ResponseEntity<>(tagService.getTagCounts(username), HttpStatus.OK);
+    }
 }

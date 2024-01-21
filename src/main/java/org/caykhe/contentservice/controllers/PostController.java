@@ -26,6 +26,7 @@ public class PostController {
     public ResponseEntity<?> get(@PathVariable Integer id) {
         return new ResponseEntity<>(postService.get(id), HttpStatus.OK);
     }
+
     @GetMapping("/{id}/detail")
     public ResponseEntity<?> getDetail(@PathVariable Integer id) {
         return new ResponseEntity<>(postService.getDetail(id), HttpStatus.OK);
@@ -82,10 +83,10 @@ public class PostController {
     }
 
     @GetMapping("/get/in_usernames")
-    public  ResponseEntity<?> getPostByUsernames(@RequestParam(name = "usernames") List<String> usernames,
-                                                 @RequestParam(required = false, name = "page") Integer page,
-                                                 @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit,
-                                                 @RequestParam(required = false, defaultValue = "") String tag) {
+    public ResponseEntity<?> getPostByUsernames(@RequestParam(name = "usernames") List<String> usernames,
+                                                @RequestParam(required = false, name = "page") Integer page,
+                                                @RequestParam(required = false, name = "limit", defaultValue = "10") Integer limit,
+                                                @RequestParam(required = false, defaultValue = "") String tag) {
         return new ResponseEntity<>(postService.getPostByUserNames(usernames, page, limit, tag), HttpStatus.OK);
     }
 

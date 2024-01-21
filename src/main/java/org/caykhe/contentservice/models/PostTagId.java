@@ -20,7 +20,7 @@ public class PostTagId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -3995321831031202909L;
-    
+
     @NotNull
     @Column(name = "post_id", nullable = false)
     private Integer postId;
